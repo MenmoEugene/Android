@@ -13,6 +13,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText editText;
     private ImageView imageView;
     private ProgressBar progressBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,17 +21,21 @@ public class MainActivity extends AppCompatActivity {
         Button button = (Button) findViewById(R.id.button);
         editText = (EditText) findViewById(R.id.edit_text);
         imageView = (ImageView) findViewById(R.id.image_view);
-        progressBar = (ProgressBar)findViewById(R.id.progress_bar);
+        progressBar = (ProgressBar) findViewById(R.id.progress_bar);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                switch (view.getId()){
+                switch (view.getId()) {
                     case R.id.button:
-                        if (progressBar.getVisibility() == View.GONE){
-                            progressBar.setVisibility(View.VISIBLE);
-                        }else{
-                            progressBar.setVisibility(View.GONE);
-                        }
+                        int progress = progressBar.getProgress();
+                        progress = progress + 10;
+                        progressBar.setProgress(progress);
+                        break;
+//                        if (progressBar.getVisibility() == View.GONE){
+//                            progressBar.setVisibility(View.VISIBLE);
+//                        }else{
+//                            progressBar.setVisibility(View.GONE);
+//                        }
 //                    case R.id.button:
 //                        imageView.setImageResource(R.drawable.image_2);
 //                        break;
