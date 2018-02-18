@@ -25,7 +25,7 @@ public class MsgAdapter extends RecyclerView.Adapter<MsgAdapter.ViewHolder> {
             super(view);
             leftLayout = (LinearLayout) view.findViewById(R.id.left_layout);
             rightLayout = view.findViewById(R.id.right_layout);
-            leftMsg = (TextView) view.findViewById(R.id.left_layout);
+            leftMsg = (TextView) view.findViewById(R.id.left_msg);
             rightMsg = (TextView) view.findViewById(R.id.right_msg);
         }
     }
@@ -47,7 +47,7 @@ public class MsgAdapter extends RecyclerView.Adapter<MsgAdapter.ViewHolder> {
             holder.leftLayout.setVisibility(View.VISIBLE);
             holder.rightLayout.setVisibility(View.GONE);
             holder.leftMsg.setText(msg.getContent());
-        } else if (msg.getType() == Msg.TYPE_RECEIVED) {
+        } else if (msg.getType() == Msg.TYPE_SENT) {
             holder.rightLayout.setVisibility(View.VISIBLE);
             holder.leftLayout.setVisibility(View.GONE);
             holder.rightMsg.setText(msg.getContent());
