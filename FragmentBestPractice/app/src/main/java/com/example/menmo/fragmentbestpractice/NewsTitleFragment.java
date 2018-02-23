@@ -52,6 +52,7 @@ public class NewsTitleFragment extends Fragment {
         return builder.toString();
     }
 
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
