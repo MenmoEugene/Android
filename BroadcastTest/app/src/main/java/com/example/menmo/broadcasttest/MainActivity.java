@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         intentFilter = new IntentFilter();
-        intentFilter.addAction("android.net.com.CONNECTIVITY_CHANGE");
+        intentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
         networkChangeReceiver = new NetworkChangeReceiver();
         registerReceiver(networkChangeReceiver, intentFilter);
     }
