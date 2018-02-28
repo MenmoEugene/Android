@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.menmo.broadcasttest2">
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -21,9 +22,8 @@
             android:name=".AnotherBroadcastReceiver"
             android:enabled="true"
             android:exported="true">
-
             <intent-filter>
-                <action android:name="com.example.menmo.broadcasttest.MY_BRODCASTTEST" />
+                <action android:name="com.example.menmo.broadcasttest.MY_BROADCAST" />
             </intent-filter>
         </receiver>
     </application>

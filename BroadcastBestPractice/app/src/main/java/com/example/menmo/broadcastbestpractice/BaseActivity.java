@@ -10,10 +10,11 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 
 /**
- * Created by Administrator on 2018/2/27 0027.
+ * Created by Administrator on 2018/2/28 0028.
  */
 
 public class BaseActivity extends AppCompatActivity {
+
     private ForceOfflineReceiver receiver;
 
     @Override
@@ -26,7 +27,7 @@ public class BaseActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction("com.example.menmo.broadcastbestpractice");
+        intentFilter.addAction("com.example.menmo.broadcastbestpractice.FORCE_OFFLINE");
         receiver = new ForceOfflineReceiver();
         registerReceiver(receiver, intentFilter);
     }
@@ -51,13 +52,13 @@ public class BaseActivity extends AppCompatActivity {
         public void onReceive(final Context context, Intent intent) {
             AlertDialog.Builder builder = new AlertDialog.Builder(context);
             builder.setTitle("Warning");
-            builder.setMessage("You are forced to be offline, Please try to login again");
+            builder.setMessage("You are forced to be offline. Please try to login again.");
             builder.setCancelable(false);
             builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    ActivityCollector.finishAll();
-                    Intent intent = new Intent(context, LoginActivity.class);
+                    ActivityCollector.finishAll();//销毁所有活动
+                    Intent intent = new Intent(context, LoginAcitivity.class);
                     context.startActivity(intent);
                 }
             });
@@ -65,4 +66,3 @@ public class BaseActivity extends AppCompatActivity {
         }
     }
 }
-

@@ -9,7 +9,7 @@ import android.widget.Button;
 public class MainActivity extends BaseActivity {
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Button forceOffline = (Button) findViewById(R.id.force_offline);
