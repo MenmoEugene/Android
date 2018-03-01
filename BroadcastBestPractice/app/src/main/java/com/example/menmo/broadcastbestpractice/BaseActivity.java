@@ -58,7 +58,7 @@ public class BaseActivity extends AppCompatActivity {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     ActivityCollector.finishAll();//销毁所有活动
-                    Intent intent = new Intent(context, LoginAcitivity.class);
+                    Intent intent = new Intent(context, LoginActivity.class);
                     context.startActivity(intent);
                 }
             });
