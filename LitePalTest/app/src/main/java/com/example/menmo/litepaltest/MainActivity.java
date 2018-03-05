@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
                 book.setPrice(16.96);
                 book.setPress("Unknow");
                 book.save();
+
             }
         });
         Button updateData = (Button) findViewById(R.id.add_data);
