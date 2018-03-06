@@ -2,7 +2,7 @@ package com.example.menmo.databasetest;
 
 import android.content.ContentValues;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,71 +11,37 @@ import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
 
-    private MyDatabaseHelper dbHelper;
+    private String newId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        dbHelper = new MyDatabaseHelper(this, "BookStore.db", null, 2);
-        Button createDatabase = (Button) findViewById(R.id.create_database);
-        createDatabase.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dbHelper.getWritableDatabase();
-            }
-        });
-
         Button addData = (Button) findViewById(R.id.add_data);
         addData.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SQLiteDatabase db = dbHelper.getWritableDatabase();
-                ContentValues values = new ContentValues();//开始组装第一条数据
-                values.put("name", "The Da Vinci Code");
-                values.put("author", "Dan Brown");
-                values.put("pages", "454");
-                values.put("price", 16.96);
-                db.insert("Book", null, values);//插入第一条数据
-                values.clear();//开始组装第二条数据
-                values.put("name", "The Lost Symbol");
-                values.put("author", "fuker");
-                values.put("pages", 510);
-                values.put("price", 19.95);
-                db.insert("Book", null, values);//插入第二条数据链
-            }
-        });
-
-        Button updateData = (Button) findViewById(R.id.update_data);
-        updateData.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SQLiteDatabase db = dbHelper.getWritableDatabase();
+                //添加数据
+                Uri uri = Uri.parse("content://com.example.menmo.databasetest.provider/book");
                 ContentValues values = new ContentValues();
-                values.put("price", 10.99);
-                db.update("Book", values, "name = ?", new String[]{"The Da Vinci Code"});
+                values.put("name", "A Clash of Kings");
+                values.put("author", "George Martin");
+                values.put("pages", 1040);
+                values.put("price", 22.85);
+                Uri newUri = getContentResolver().insert(uri, values);
+                newId = newUri.getPathSegments().get(1);
             }
         });
 
-        Button deleteData = (Button) findViewById(R.id.delete_data);
-        deleteData.setOnClickListener(new View.OnClickListener() {
+        Button queryData = (Button) findViewById(R.id.query_data);
+        queryData.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SQLiteDatabase db = dbHelper.getWritableDatabase();
-                db.delete("Book", "pages > ?", new String[]{"500"});
-            }
-        });
-
-        Button queryButton = (Button) findViewById(R.id.query_data);
-        queryButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SQLiteDatabase db = dbHelper.getWritableDatabase();
-                //查询Book 表中所有的数据
-                Cursor cursor = db.query("Book", null, null, null, null, null, null);
-                if (cursor.moveToFirst()) {
-                    do {
-                        //遍历 Cursor 对象，取出数据并打印
+                //查询数据
+                Uri uri = Uri.parse("content://com.example.menmo.databesttest.provider/book");
+                Cursor cursor = getContentResolver().query(uri, null, null, null, null);
+                if (cursor != null) {
+                    while (cursor.moveToNext()) {
                         String name = cursor.getString(cursor.getColumnIndex("name"));
                         String author = cursor.getString(cursor.getColumnIndex("author"));
                         int pages = cursor.getInt(cursor.getColumnIndex("pages"));
@@ -84,9 +50,33 @@ public class MainActivity extends AppCompatActivity {
                         Log.d("MainActivity", "book author is" + author);
                         Log.d("MainActivity", "book pages is" + pages);
                         Log.d("MainActivity", "book price is" + price);
-                    } while (cursor.moveToNext());
+                    }
+                    cursor.close();
                 }
-                cursor.close();
+            }
+        });
+
+        Button updateData = (Button) findViewById(R.id.update_data);
+        updateData.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //更新数据
+                Uri uri = Uri.parse("content://com.example.menmo.databesttest.provider/book" + newId);
+                ContentValues values = new ContentValues();
+                values.put("name", "A Storm of Swords");
+                values.put("pages", 1216);
+                values.put("price", 24.05);
+                getContentResolver().update(uri, values, null, null);
+            }
+        });
+
+        Button deleteData = (Button) findViewById(R.id.delete_data);
+        deleteData.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //删除数据
+                Uri uri = Uri.parse("content://com.example.menmo.databesttest.provider/book" + newId);
+                getContentResolver().delete(uri, null, null);
             }
         });
     }
