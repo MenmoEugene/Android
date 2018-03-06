@@ -4,6 +4,12 @@
     android:layout_height="match_parent"
     android:orientation="horizontal">
 
+    <Button
+        android:id="@+id/button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="On Click" />
+
     <FrameLayout
         android:id="@+id/left_fragment"
         android:name="com.example.menmo.fragmenttest.LeftFragment"

@@ -3,7 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/FragmentTest.iml" filepath="$PROJECT_DIR$/FragmentTest.iml" />
+      <module fileurl="file://F:\xin\AndroidStudioProjects\FragmentTest\FragmentTest.iml" filepath="F:\xin\AndroidStudioProjects\FragmentTest\FragmentTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://F:\xin\AndroidStudioProjects\FragmentTest\app\app.iml" filepath="F:\xin\AndroidStudioProjects\FragmentTest\app\app.iml" />
     </modules>
   </component>
 </project>
