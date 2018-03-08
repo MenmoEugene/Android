@@ -1,8 +1,7 @@
-package com.example.menmo.playaudiotest;
+package com.example.menmo.playvideotest;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
-import android.media.MediaPlayer;
 import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -11,40 +10,37 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
+import android.widget.VideoView;
 
 import java.io.File;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private MediaPlayer mediaPlayer = new MediaPlayer();
+    private VideoView videoView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        videoView = (VideoView) findViewById(R.id.video_view);
         Button play = (Button) findViewById(R.id.play);
         Button pause = (Button) findViewById(R.id.pause);
-        Button stop = (Button) findViewById(R.id.stop);
+        Button replay = (Button) findViewById(R.id.replay);
         play.setOnClickListener(this);
         pause.setOnClickListener(this);
-        stop.setOnClickListener(this);
+        replay.setOnClickListener(this);
         if (ContextCompat.checkSelfPermission(MainActivity.this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(MainActivity.this, new String[]{
                     Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
         } else {
-            initMediaPlayer();//初始化 MediaPlayer
+            initVideoPath();//初始化MediaPlayer
         }
     }
 
-    private void initMediaPlayer() {
-        try {
-            File file = new File(Environment.getExternalStorageDirectory(), "music.mp3");
-            mediaPlayer.setDataSource(file.getPath());//指定音频文件的路径
-            mediaPlayer.prepare();//让MediaPlayer 进入到准备状态
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    private void initVideoPath() {
+        File file = new File(Environment.getExternalStorageDirectory(), "movie.mp4");
+        videoView.setVideoPath(file.getPath());//指定视频文件的路径
     }
 
     @Override
@@ -52,10 +48,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (requestCode) {
             case 1:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    initMediaPlayer();
+                    initVideoPath();
                 } else {
-                    Toast.makeText(this, "拒绝权限将无法使用程序",
-                            Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this,
+                            "拒绝权限将无法使用程序", Toast.LENGTH_SHORT).show();
                     finish();
                 }
                 break;
@@ -67,21 +63,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.play:
-                if (!mediaPlayer.isPlaying()) {
-                    mediaPlayer.start();
+                if (!videoView.isPlaying()) {
+                    videoView.start();//开始播放
                 }
                 break;
             case R.id.pause:
-                if (mediaPlayer.isPlaying()) {
-                    mediaPlayer.pause();
+                if (!videoView.isPlaying()) {
+                    videoView.start();//暂停播放
                 }
                 break;
-            case R.id.stop:
-                if (mediaPlayer.isPlaying()) {
-                    mediaPlayer.stop();
+            case R.id.replay:
+                if (!videoView.isPlaying()) {
+                    videoView.start();//重新播放
                 }
-                break;
-            default:
                 break;
         }
     }
@@ -89,9 +83,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (mediaPlayer != null) {
-            mediaPlayer.stop();
-            mediaPlayer.release();
+        if (videoView != null) {
+            videoView.suspend();
         }
     }
 }
