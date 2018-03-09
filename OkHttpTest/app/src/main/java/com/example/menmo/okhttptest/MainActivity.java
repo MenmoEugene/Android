@@ -14,7 +14,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     TextView responseText;
     OkHttpClient client = new OkHttpClient();
-//    Request request = new Request.Builder().build();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
